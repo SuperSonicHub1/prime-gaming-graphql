@@ -1,0 +1,2092 @@
+"""The information for a third-party account link."""
+type AccountLink {
+  """The account links UUID"""
+  id: ID!
+
+  """The name displayed on the third-party account site."""
+  displayName: String
+
+  """The type of account for the account link (usually a publisher name)."""
+  accountType: String!
+
+  """The current state of the account link."""
+  status: AccountLinkStatus!
+}
+
+"""Account linking configuration for a third party."""
+type AccountLinkConfig {
+  """
+  The type of account for the account link (usually a publisher name). Only
+  present for third parties where account links are stored by Twitch Prime
+  """
+  accountType: String
+
+  """
+  The URL to direct the user to link their game account to their Twitch Prime account.
+  """
+  linkingUrl: String
+
+  """Instructions for linking an account"""
+  linkingInstructions: [String!]
+
+  """Confirmation text for a user who has linked"""
+  linkedAccountConfirmation: String
+
+  """
+  A URL to the page where users can manage and remove their third party account link
+  """
+  thirdPartyAccountManagementUrl: String
+}
+
+"""An indicator for the account link's status in our system."""
+enum AccountLinkStatus {
+  """
+  The account link is currently being used by the customer and third-party.
+  """
+  ACTIVE
+
+  """
+  The account link is marked as no longer in use but kept for historical purposes.
+  """
+  DISABLED
+}
+
+"""Notification that should be shown to the customer"""
+type Alert {
+  """What form does the alert take."""
+  type: AlertType!
+
+  """A call to action to redirect a customer to an external page."""
+  button: AlertButton
+
+  """Information about a situation or knowledge the customer needs."""
+  message: String!
+
+  """Priority of the notification"""
+  order: Int!
+}
+
+"""A call to action."""
+type AlertButton {
+  """Text to be shown in the button."""
+  text: String!
+
+  """Where the button redirects to."""
+  url: String!
+}
+
+enum AlertType {
+  INFORMATION
+  ERROR
+  WARNING
+}
+
+"""
+Unstructured key/value object describing appearance of a page element block
+"""
+type BlockMetadata {
+  key: String!
+  value: String
+}
+
+"""Error code for an error that occurs while claiming a journey offer."""
+type ClaimJourneyOfferError {
+  """Error code for error that occurred while claiming a journey offer."""
+  code: ClaimJourneyOfferErrorCode!
+}
+
+"""Error types recognized."""
+enum ClaimJourneyOfferErrorCode {
+  """Unknown error being returned from service."""
+  UNKNOWN
+
+  """Status when the offerId or journeyId not found."""
+  ENTITY_NOT_FOUND
+
+  """Status when the customer account is not eligible for claim."""
+  INELIGIBLE_ACCOUNT
+
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+}
+
+input ClaimJourneyOfferInput {
+  """Unique Identifier for a journey."""
+  journeyId: ID!
+
+  """Unique Identifier for an offer."""
+  offerId: ID!
+
+  """
+  Optional - Date override in UTC to claim the campaigns available for a
+  specific date for allowlist accounts. Defaults to current time.
+  """
+  dateOverride: Time
+
+  """If the offer being claimed is claim-code based"""
+  isClaimCode: Boolean
+}
+
+"""
+Data that was mutated after claiming the journey and offer, in this case, the entitlement.
+"""
+type ClaimJourneyOfferPayload {
+  """The connection contains both journey and offer."""
+  self: ClaimJourneyOfferSelfConnection
+
+  """The possible error returned from the service."""
+  error: ClaimJourneyOfferError
+
+  """Unique Identifier for a journey returned from the service."""
+  journeyId: ID!
+
+  """Unique Identifier for an offer returned from the service."""
+  offerId: ID!
+}
+
+"""Data that contains the journey offer claim status."""
+type ClaimJourneyOfferSelfConnection {
+  """The connection for whether the user is entitled to the offer."""
+  offer: JourneyOfferSelfConnection!
+}
+
+"""Error code for an error that occurs while claiming prime offer."""
+type ClaimPrimeOfferError {
+  """Error code for error that occurred while claiming prime offer."""
+  code: ClaimPrimeOfferErrorCode!
+}
+
+"""Error types recognized."""
+enum ClaimPrimeOfferErrorCode {
+  """
+  Status when offer is already claimed by the current user or an associated account.
+  """
+  OFFER_ALREADY_CLAIMED
+
+  """
+  Error when the offer is unclaimable because of an entitlement to the linked twitch account
+  """
+  OFFER_CLAIMED_ON_TWITCH_NOT_AMAZON
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+
+  """
+  Status when a user has no linked Twitch accounts, no selected Twitch account, or an invalid selected Twitch account.
+  """
+  NO_SELECTED_TWITCH_ACCOUNT
+
+  """
+  Users Twitch Prime membership is in an invalid Prime marketplace for this Offer.
+  """
+  INELIGIBLE_COUNTRY
+}
+
+input ClaimPrimeOfferInput {
+  """Unique Identifier for an offer."""
+  offerID: ID!
+
+  """
+  Temporary parameter for indicating that a FGWP offer is being claimed.
+  Long term, we will deprecate this in favor of backend systems flexibly allowing claims of various types.
+  """
+  isFGWPClaim: Boolean
+}
+
+"""
+Data that was mutated after claiming the prime offer, in this case, the entitlement.
+"""
+type ClaimPrimeOfferPayload {
+  """The possible error returned from the service."""
+  error: ClaimPrimeOfferError
+
+  """The connection for whether the user is entitled to the offer."""
+  self: OfferSelfConnection
+}
+
+"""Information for Household user who has already claimed the content."""
+type ConflictingClaimUser {
+  """
+  The user's full name. Will be blank if the customer does not have a full name (there are valid customer in this state).
+  """
+  fullName: String
+
+  """The user's obfuscated email address. Ex: c******e@gmail.com."""
+  obfuscatedEmail: String
+}
+
+"""
+"A country is a distinct territorial body or political entity. It is often
+referred to as the land of an individual's birth, residence or citizenship." - Wikipedia.
+"""
+type Country {
+  """ISO 3166-1 alpha-2 identifier for the country."""
+  countryCode: String!
+
+  """Prime Gaming eligibility for users in this country."""
+  primeGamingEligibility: CountryPrimeEligibility
+}
+
+"""
+Descriptor for whether or not users in a country are eligible for Prime Gaming benefits.
+"""
+enum CountryPrimeEligibility {
+  """Prime Gaming benefits are supported in this country."""
+  SUPPORTED
+
+  """Amazon is legally prohibited from doing business in this country."""
+  EMBARGOED
+
+  """Prime Gaming benefits are not yet offered in this country."""
+  EXCLUDED
+}
+
+"""Error that occurs while creating an account link."""
+type CreateAccountLinkError {
+  """Error code for error that occurred while creating an account link."""
+  code: CreateAccountLinkErrorCode!
+}
+
+"""Recognized error types for creating an account link."""
+enum CreateAccountLinkErrorCode {
+  """The Amazon customer who we are trying to link is not signed in"""
+  NOT_SIGNED_IN
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""
+Information to create a link between an Amazon account and a third-party account
+"""
+input CreateAccountLinkInput {
+  """The third-party account type"""
+  accountType: String!
+
+  """The token that is associated with the third party account"""
+  token: String!
+
+  """The redirect URI that was used to get the token."""
+  redirectUri: String
+
+  """Optional param to overwrite the existing account link"""
+  overwrite: Boolean
+
+  """Optional param to specify a specific OAuth client ID"""
+  clientId: String
+}
+
+"""
+Data that was mutated after creating a link between an Amazon account and a third-party account.
+"""
+type CreateAccountLinkPayload {
+  """The possible error returned from the service."""
+  error: CreateAccountLinkError
+
+  """The information about the link that was created."""
+  account: AccountLink
+}
+
+"""Signed in customers information."""
+type CurrentUser {
+  """Unique identifier for a user"""
+  id: ID
+
+  """DEPRECATED: use obfuscatedEmail"""
+  email: String
+
+  """The user's obfuscated email address. Ex: c******e@gmail.com."""
+  obfuscatedEmail: String
+
+  """Details if the customer is signed in"""
+  isSignedIn: Boolean!
+
+  """
+  Details if the customer is signed up for Twitch Prime. This will be true if
+  the user is Amazon Prime and they've gone through the Twitch Prime signup flow.
+  """
+  isTwitchPrime: Boolean!
+
+  """Details if the customer is signed up for Amazon Prime."""
+  isAmazonPrime: Boolean!
+
+  """The Twitch Accounts associated with the current signed in user."""
+  twitchAccounts: [TwitchAccount!]
+
+  """
+  The first name of the current signed in user. Will be blank if the customer
+  does not have a first name (there are valid customer in this state).
+  """
+  firstName: String
+
+  """
+  The full name of the current signed in user.  Will be blank if the customer
+  does not have a full name (there are valid customer in this state).
+  """
+  fullName: String
+
+  """The Twitch Prime signup status of the user."""
+  primeSignupStatus: PrimeSignupStatus!
+
+  """
+  The url for additional mobile verification/setup for Twitch Prime signup. Currently not available for ROW countries.
+  """
+  mobileVerificationUrl: String
+
+  """The users preferences across Amazon and Twitch Prime"""
+  preferences: UserPreferences
+}
+
+type DeveloperConsoleOptions {
+  """List of configurable Dino services/operations."""
+  dinoServices: [DinoService!]
+}
+
+type DinoOperation {
+  """Name of the service."""
+  serviceName: String!
+
+  """Name of the operation."""
+  operationName: String!
+}
+
+type DinoService {
+  """Name of the service."""
+  name: ID!
+
+  """List of configurable Dino operations in this service."""
+  operations: [DinoOperation!]
+}
+
+"""A frequently asked question about an entity, e.g. a game or item."""
+type FAQ {
+  """The question"""
+  question: String
+
+  """The answer"""
+  answer: String
+}
+
+"""Legacy game type used by AGA."""
+type Game {
+  """Product ID of the game"""
+  id: ID!
+
+  """Video urls"""
+  gameplayVideoLinks: [String]
+
+  """Keywords that describe the game"""
+  keywords: [String]
+
+  """DateTime the game was released in 2012-01-21T00:00:00.000Z format"""
+  releaseDate: Time
+
+  """ESRB rating"""
+  esrb: String
+
+  """Pan European Game Information identifier"""
+  pegi: String
+
+  """Unterhaltungssoftware Selbstkontrolle (German Rating Board)"""
+  usk: String
+
+  """Developer url"""
+  website: String
+
+  """List of genres that apply to the game"""
+  genres: [String]
+
+  """Single player, co-op, etc."""
+  gameModes: [String]
+
+  """Links to social media platforms"""
+  externalWebsites: [SocialMedia]
+
+  """Devloper that worked on the game"""
+  developerName: String
+
+  """URL that links to a transparent image"""
+  logoImage: Media
+
+  """URL that links to an image used for the Prime Gaming crown"""
+  pgCrownImage: Media
+
+  """URL that links to a thumbnail for the game trailer"""
+  trailerImage: Media
+
+  """Publisher of the game"""
+  publisher: String
+
+  """URL for the hero image"""
+  background: Media
+
+  """URL for the banner image"""
+  banner: Media
+
+  """Description"""
+  description: String
+
+  """Other Developers (for games developed by multiple studios)."""
+  otherDevelopers: [String]
+}
+
+"""Text and media assets for a game"""
+type GameAssets {
+  """Name of the game"""
+  title: String
+
+  """Short-form description of the game"""
+  shortformDescription: String
+
+  """Long-form description of the game"""
+  longformDescription: String
+
+  """Release date of the game"""
+  releaseDate: Time
+
+  """Name of the game publisher"""
+  publisher: String
+
+  """Name of the game developer"""
+  developer: String @deprecated(reason: "Use `developers` instead.")
+
+  """Names of the game developers"""
+  developers: [String]
+
+  """Platforms the game is available on"""
+  platforms: [String]
+
+  """Genres applicable to the game"""
+  genres: [String]
+
+  """Game modes supported by the game"""
+  gameModes: [String]
+
+  """Instructions for purchasing the game"""
+  purchaseGameText: String
+
+  """A list of faqs relating to the game"""
+  faqList: [FAQ]
+
+  """Image representing the developer or publisher of the game"""
+  vendorIcon: Media
+}
+
+"""Information about a customers relationship to a game"""
+type GameSelfConnection {
+  """Customer's third-party account link information"""
+  accountLink: AccountLink
+
+  """
+  True if the customer is subscribed to email notifications for this game
+  """
+  isSubscribedToNotifications: Boolean
+}
+
+type GameV2 {
+  """Unique identifier for the Game"""
+  id: ID!
+
+  """URL of the game website"""
+  officialWebsite: String
+
+  """The URL to the third party's (e.g. Riot's) technical support page"""
+  thirdPartySupportPageUrl: String
+
+  """Text and media assets for a game"""
+  assets: GameAssets
+
+  """Account linking configuration for a third-party"""
+  accountLinkConfig: AccountLinkConfig
+
+  """Information about a customers relationship to a game"""
+  gameSelfConnection: GameSelfConnection
+}
+
+type Item {
+  """Unique identifier for the Item"""
+  id: ID!
+
+  """
+  Identifies an item that requires a 3P account link before claiming; i.e. uses "push" fulfillment
+  """
+  requiresLinkBeforeClaim: Boolean
+
+  """Identifies an item that uses claim code fulfillment"""
+  grantsCode: Boolean
+
+  """Identifies a "free game with prime" item"""
+  isFGWP: Boolean
+
+  """The internal path to redirect to once an item is no longer available"""
+  redirectPath: String
+
+  """Game related to the item"""
+  game: GameV2
+
+  """Offers related to the item"""
+  offers: [Offer]
+
+  """Text and visual media assets"""
+  assets: ItemAssets
+
+  """
+  Alerts to be shown to the customer to inform them about a status of the item
+  """
+  alertList: [Alert]
+
+  """List of pixels to track item actions"""
+  pixels: [Pixel]
+
+  """Old style Journey associated with this Item."""
+  journey: Journey
+
+  """
+  Ranking for which the item should be displayed ordered asc.
+  An item with 0 priority would be shown before an item with 100 priority.
+  """
+  priority: Int
+}
+
+"""Text and media assets for an item"""
+type ItemAssets {
+  """Unique identifier for the assets object"""
+  id: ID!
+
+  """Title of the item"""
+  title: String
+
+  """Short-form description of the item"""
+  shortformDescription: String
+
+  """Long-form description of the item"""
+  longformDescription: String
+
+  """Details about what comes with the item"""
+  itemDetails: [String]
+
+  """List of platforms the item is claimable for"""
+  platforms: [String]
+
+  """Short-form legalese"""
+  shortformLegalText: String
+
+  """Long-form legalese"""
+  longformLegalText: String
+
+  """Link to external claiming location for mobile items"""
+  externalClaimLink: String
+
+  """A list of faqs relating to the item"""
+  faqList: [FAQ]
+
+  """Media rendered in the hero banner"""
+  heroMedia: Media
+
+  """Additional images/video about the content of the item"""
+  additionalMedia: [Media]
+
+  """Thumbnail image of the item rendered in the item content box"""
+  thumbnailImage: Media
+
+  """Media to use when rendering this Item as a card in a shoveler."""
+  cardMedia: Media
+
+  """Visual media showing customers how to claim the item"""
+  claimVisualInstructions: Media
+
+  """Text instructions for claiming the item"""
+  claimInstructions: String
+}
+
+"""Collection type for Items."""
+enum ItemCollectionType {
+  """Items featured by Prime Gaming."""
+  FEATURED
+
+  """Items that are popular right now."""
+  POPULAR
+
+  """Items that are free games."""
+  FREE_GAMES
+
+  """Items with offers that went live recently."""
+  NEW
+
+  """Items with offers ending soon."""
+  EXPIRING
+
+  """Items with offers starting soon."""
+  COMING_SOON
+}
+
+"""A page containing a list of Items and a token for further pagination."""
+type ItemsPage {
+  """A pagination token for fetching the next page."""
+  nextToken: String
+
+  """A list of items."""
+  items: [Item]
+}
+
+"""
+An object containing grouped offers available based on time windows or eligibility
+"""
+type Journey {
+  """Unique identifier for the journey."""
+  id: ID!
+
+  """List of offers associated with a Journey"""
+  offers: [JourneyOffer]!
+
+  """The type for if a journey is a CAMPAIGN or JOURNEY"""
+  type: JourneyType!
+  game: GameV2
+
+  """Connection for the current user"""
+  self: JourneySelfConnection
+
+  """Assets for the journey"""
+  assets: JourneyAssets!
+
+  """
+  The account link information for this Journey if thirdPartyAccountType is
+  present and the customer has already linked their account.
+  """
+  accountLink: AccountLink
+
+  """
+  Configuration for the third-party account link for this Journey.
+  journeyShortName - name of the journey page used to validate the redirectUrl
+  passed to build the third party account link url
+  redirectUrl - page url user gets redirected to after linking their third party account
+  Optional - String debug will display the string id and locale for string assets
+  """
+  accountLinkConfig(journeyShortName: String, redirectUrl: String, stringDebug: Boolean = false): AccountLinkConfig
+}
+
+"""Assets for a Journey."""
+type JourneyAssets {
+  """Title of the journey."""
+  title: String!
+
+  """Subtitle describing the journey."""
+  subtitle: String!
+
+  """Longer description of the journey."""
+  description: String!
+
+  """Legal disclaimer text for journey."""
+  legal: String
+
+  """Main asset for the journey"""
+  hero: Media!
+
+  """
+  Alerts to be shown to the customer to inform them about a status of the campaign
+  """
+  alertList: [Alert!]
+
+  """Instructions for claiming offers in the journey"""
+  claimInstructions: String
+
+  """Image or video showing customers how to claim offers in the journey"""
+  claimVisualInstructions: Media
+
+  """Instructions for purchasing a game"""
+  purchaseGameText: String
+
+  """The URL to the third party's (e.g. Riot's) technical support page"""
+  thirdPartySupportPageUrl: String
+
+  """
+  A URL to the page where users can manage and remove their third party account link
+  """
+  thirdPartyAccountManagementUrl: String
+
+  """
+  The platforms supported by the game e.g. "Available on Xbox, PC, Switch"
+  """
+  platformAvailability: String
+
+  """Publisher name of the journey"""
+  publisherName: String
+}
+
+"""An object containing information about an offer in a Journey"""
+type JourneyOffer {
+  """Unique identifier for the journey offer."""
+  id: ID!
+
+  """Unique identifier for the catalog equivalent of the offer"""
+  catalogId: String
+
+  """Connection for the current user"""
+  self: JourneyOfferSelfConnection
+
+  """Assets for the journey offer."""
+  assets: JourneyOfferAssets
+
+  """Flag if the offer is claim-code based"""
+  grantsCode: Boolean!
+
+  """Denotes if the journeyOffer is representing a FGWP offer"""
+  isFGWP: Boolean
+
+  """The time at which the offer becomes available"""
+  startTime: Time
+
+  """The time at which the offer is no longer available"""
+  endTime: Time
+}
+
+type JourneyOfferAssets {
+  """Title of journey offer."""
+  title: String!
+
+  """Subtitle that describes journey offer."""
+  subtitle: String
+
+  """Optional header of journey offer that displays custom strings."""
+  header: String
+
+  """Main journey offer image or video."""
+  card: Media!
+
+  """Additional images and videos for journey asset."""
+  additionalMedia: [Media!]
+
+  """List of items available in the journey offer."""
+  items: [String!]
+
+  """List of pixels to track offer actions"""
+  pixels: [Pixel!]
+
+  """
+  Optional URL used to take a user to an external site to claim the offer
+  """
+  externalClaimLink: String
+}
+
+"""
+An object containing information about an offer's marketplace restrictions
+"""
+type JourneyOfferMarketplaceRestriction {
+  """Whether or not there is a marketplace restriction blocking claiming"""
+  isRestricted: Boolean!
+}
+
+"""
+An object containing information about another offer claim that may be blocking the current offer's availability
+"""
+type JourneyOfferOtherClaim {
+  """
+  Whether or not there is another offer that must be claimed before this journey offer is available
+  """
+  isRequired: Boolean!
+}
+
+"""
+An object containing information about a Journey Offer for the current user
+"""
+type JourneyOfferSelfConnection {
+  """The status for if a journey offer is AVAILABLE, FUTURE, EXPIRED, etc."""
+  claimStatus: JourneyOfferStatus!
+
+  """The claim data (link, text, or claim code) for the Journey Offer"""
+  claimData: String
+
+  """Time at which the offer becomes claimable"""
+  claimableAt: Time
+
+  """The data about the offer's marketplace restriction"""
+  marketplaceRestriction: JourneyOfferMarketplaceRestriction!
+
+  """The data about the offer's other relevant offer claims"""
+  otherClaim: JourneyOfferOtherClaim!
+
+  """
+  Represents accounts a user has already claimed from, thus removing their
+  eligibility to claim a particular journey offer (e.g. TWITCH, AMAZON, BLIZZARD).
+  """
+  conflictingAccounts: [String!]
+
+  """
+  Represents the user's ability to claim an offer
+  Optional - getOnlyActiveOffers excludes eligibility data for offers that are inactive (future or expired).
+  """
+  eligibility(getOnlyActiveOffers: Boolean = false): OfferEligibility
+
+  """Represents data that was used to previously claim this offer"""
+  orderInformation: [OfferOrderInformation!]
+}
+
+"""Possible values for the status of a Journey Offer"""
+enum JourneyOfferStatus {
+  """Offer can be claimed now"""
+  AVAILABLE
+
+  """Offer has been claimed by the user"""
+  CLAIMED
+
+  """Offer has expired and is no longer claimable"""
+  EXPIRED
+
+  """Offer is not yet available"""
+  FUTURE
+}
+
+"""An object containing information about a Journey for the current user"""
+type JourneySelfConnection {
+  """The status for if a journey is AVAILABLE, FUTURE, EXPIRED, etc."""
+  enrollmentStatus: JourneyStatus!
+}
+
+"""Possible values for the status of a Journey"""
+enum JourneyStatus {
+  """Journey can be enrolled in now"""
+  AVAILABLE
+
+  """Journey is CLAIMED when the user claims at least 1 journey offer"""
+  CLAIMED
+
+  """Journey has expired and is no longer available"""
+  EXPIRED
+
+  """Journey is not yet available"""
+  FUTURE
+}
+
+"""Possible values for the type of Journey"""
+enum JourneyType {
+  """Type if Journey where offers are available based eligibility rules"""
+  JOURNEY
+}
+
+"""Error that occurs while creating an account link."""
+type LinkTwitchAccountError {
+  """Error code for error that occurred while creating the account link."""
+  code: LinkTwitchAccountErrorCode!
+
+  """
+  When the ACCOUNT_UNAVAILABLE error code is present, the call can be retried after waiting this length of time.
+  """
+  backoffMilliseconds: Int
+}
+
+"""Recognized error types for creating an account link."""
+enum LinkTwitchAccountErrorCode {
+  """The Amazon customer who we are trying to link is not signed in"""
+  NOT_SIGNED_IN
+
+  """
+  The Twitch account trying to be linked is linked to another Amazon account.
+  Shouldn't happen because we unlink the Twitch account from any existing
+  accounts before linking to the new account.
+  """
+  TWITCH_ACCOUNT_ALREADY_LINKED
+
+  """
+  The number of currently linked Twitch accounts to the current Amazon is greater than the maximum.
+  """
+  TOO_MANY_LINKS
+
+  """
+  The given auth token was either expired or did not match the current customer ID.
+  """
+  INVALID_TOKEN
+
+  """
+  The given account was not available to be linked at this time. Can be retried based on the backoffMilliseconds field.
+  """
+  ACCOUNT_UNAVAILABLE
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+
+  """
+  neither `oAuthToken` or `authToken` is provided in LinkTwitchAccountInput, must provided one of them.
+  """
+  NO_TOKEN_PROVIDED
+
+  """
+  his is client error(4xx) from Tails when call GetTwitchUserInfo, includes invalid token error.
+  """
+  INVALID_PARAMETER
+}
+
+"""
+Information to create a link between an Amazon account and a Twitch account.
+Provide either JWT token or OAuth token, if they both provided, we take OAuth token.
+"""
+input LinkTwitchAccountInput {
+  """
+  Authorization token representing a Twitch account, generated by the twitchUserAuthToken query. This is JWT token.
+  """
+  authToken: String
+
+  """Twitch OAuth token."""
+  oAuthToken: String
+}
+
+"""
+Data that was mutated after creating a link between an Amazon account and a Twitch account.
+"""
+type LinkTwitchAccountPayload {
+  """The updated current user with the new Twitch account linked."""
+  currentUser: CurrentUser
+
+  """The possible error returned from the service."""
+  error: LinkTwitchAccountError
+}
+
+"""Error code for an error that occurs while marking the offers as seen."""
+type MarkPrimeOffersAsSeenError {
+  """Error code for error that occurred while marking the offers as seen."""
+  code: MarkPrimeOffersAsSeenErrorCode!
+}
+
+"""Error types recognized."""
+enum MarkPrimeOffersAsSeenErrorCode {
+  """Unknown error being returned from service."""
+  UNKNOWN
+
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+
+  """Status when a user has no linked Twitch accounts."""
+  NO_LINKED_TWITCH_ACCOUNTS
+
+  """Status when a user has no selected Twitch account."""
+  NO_SELECTED_TWITCH_ACCOUNT
+}
+
+input MarkPrimeOffersAsSeenInput {
+  """Unique Identifiers for a list of offers."""
+  offerIDs: [ID!]
+}
+
+"""Data that was mutated after marking the offers as seen."""
+type MarkPrimeOffersAsSeenPayload {
+  """The possible error returned from the service."""
+  error: MarkPrimeOffersAsSeenError
+}
+
+"""Media type for displaying content"""
+type Media {
+  """Default image asset, for mobile and higher."""
+  defaultMedia: MediaAsset!
+
+  """Tablet specific image asset."""
+  tablet: MediaAsset
+
+  """Desktop specific image asset."""
+  desktop: MediaAsset
+
+  """Text describing the asset in a marketing context."""
+  description: String
+
+  """Text describing the asset."""
+  alt: String
+
+  """Default image to render while a video is loading"""
+  videoPlaceholderImage: MediaAsset
+}
+
+"""JPEG, PNG Media"""
+type MediaAsset {
+  """Source used for non-retina displays."""
+  src1x: String!
+
+  """Source used for retina displays."""
+  src2x: String
+
+  """Type of media -- eg image, video."""
+  type: MediaType!
+}
+
+"""Possible medium for media."""
+enum MediaType {
+  VIDEO
+  IMAGE
+}
+
+type Mutation {
+  """
+  placeOrder allows a user to create their entitlement to the given offer/content.
+  """
+  placeOrder(input: PlaceOrderInput!): PlaceOrderPayload
+
+  """Creates entitlements for the current user on an offers/content"""
+  placeOrders(input: PlaceOrdersInput!): PlaceOrdersPayload
+
+  """
+  claimPrimeOffer allows a user to create their entitlement to the given offer/content.
+  """
+  claimPrimeOffer(input: ClaimPrimeOfferInput!): ClaimPrimeOfferPayload
+
+  """
+  markPrimeOffersAsSeen emits an SNS event indicating that a user has seen the given offers/content.
+  """
+  markPrimeOffersAsSeen(input: MarkPrimeOffersAsSeenInput!): MarkPrimeOffersAsSeenPayload
+
+  """
+  Allows the creation of a link between an Amazon account and third-party account
+  """
+  createAccountLink(input: CreateAccountLinkInput!): CreateAccountLinkPayload
+
+  """Link a twitch account to the logged in Amazon user."""
+  linkTwitchAccount(input: LinkTwitchAccountInput!): LinkTwitchAccountPayload
+
+  """Unlink a twitch account from the logged in Amazon user."""
+  unlinkTwitchAccount(input: UnlinkTwitchAccountInput!): UnlinkTwitchAccountPayload
+
+  """
+  signupForPrime allows a user to sign up for Twitch Prime without requiring a twitch account to be linked.
+  """
+  signupForPrime: SignupForPrimePayload
+
+  """
+  claimJourneyOffer allows a user to create their entitlement to a given journey and offer.
+  """
+  claimJourneyOffer(input: ClaimJourneyOfferInput!): ClaimJourneyOfferPayload
+
+  """
+  updateNotificationSettings allows a user to be enabled or disabled for email notification
+  """
+  updateNotificationSettings(input: UpdateNotificationSettingsInput!): UpdateNotificationSettingsPayload
+
+  """
+  updateTopicSubscription allows a user to be subscribed or unsubscribed notification for a specific topic
+  """
+  updateTopicSubscription(input: UpdateTopicSubscriptionInput!): UpdateTopicSubscriptionPayload
+
+  """
+  Allows a user to globally unsubscribe from all Prime Gaming email notifications without logging in.
+  """
+  unsubscribeFromNotificationsWithToken(input: UnsubscribeFromNotificationsWithTokenInput!): UnsubscribeFromNotificationsWithTokenPayload
+
+  """
+  Allows a user to globally subscribe to all Prime Gaming email notifications without logging in.
+  """
+  subscribeToNotificationsWithToken(input: SubscribeToNotificationsWithTokenInput!): SubscribeToNotificationsWithTokenPayload
+}
+
+"""User's notification preferences on the notification setting page"""
+type NotificationPreferences {
+  """Has the user opted out of email notification"""
+  emailNotificationOptIn: Boolean
+
+  """
+  Sign in user's notification subscriptions information on the notification setting page
+  pageSize - pageSize for showing the topics on the notification setting page, default is set to 50
+  token - current pagination parameter on the notification setting page
+  """
+  notificationSubscriptions(pageSize: Int = 50, token: String): NotificationSubscriptionsPage
+}
+
+"""An object containing information about the topic for the current user"""
+type NotificationSubscriptionTopic {
+  """Unique identifier for the topic"""
+  id: String!
+
+  """Type of the topic"""
+  type: NotificationTopicType
+
+  """Title of the topic"""
+  title: String
+
+  """The relationship between the current user and the topic"""
+  self: NotificationSubscriptionTopicSelfConnection
+}
+
+"""
+An object containing the relationship between the current user and the topic
+"""
+type NotificationSubscriptionTopicSelfConnection {
+  """Flag tracking if the user has subscribed to the topic"""
+  isEnabled: Boolean
+}
+
+"""A page of NotificationSubscriptionTopics"""
+type NotificationSubscriptionsPage {
+  """Page pagination parameter"""
+  nextToken: String
+
+  """Contain information about the topics for the current user"""
+  notificationSubscriptionTopics: [NotificationSubscriptionTopic]
+}
+
+"""
+Current NotificationTopicType only contains GAME. In the future, if introducing new type, please add here.
+"""
+enum NotificationTopicType {
+  """Current NotificationTopicType only contains GAME type"""
+  GAME
+}
+
+type Offer {
+  """Unique identifier for the offer"""
+  id: ID!
+
+  """The time at which the offer becomes available"""
+  startTime: Time
+
+  """The time at which the offer is no nonger available"""
+  endTime: Time
+
+  """
+  An object containing information about a customer's relation to the offer
+  """
+  offerSelfConnection: OfferSelfConnection
+}
+
+"""Contains information about a user's ability to claim an offer"""
+type OfferEligibility {
+  """
+  Boolean representing if the customer or member of customer's Household has claimed the offer
+  """
+  isClaimed: Boolean
+
+  """
+  Boolean representing if the customer has passed eligibility checks and can claim the offer
+  """
+  canClaim: Boolean!
+
+  """An Amazon Household account that already claimed the offer."""
+  conflictingClaimAccount: ConflictingClaimUser
+
+  """Third party accounts that have already claimed the offer."""
+  conflictingThirdPartyAccounts: [ThirdPartyAccount]
+
+  """
+  Boolean representing if the customer has a valid prime gaming account in order to claim the offer
+  """
+  isPrimeGaming: Boolean
+
+  """
+  Boolean to specify if the customer needs to link an account to be able to claim,
+  if the offer requires an account link and the customer has already link that account this would be false
+  """
+  missingRequiredAccountLink: Boolean
+
+  """Username for the linked 3p account a customer will claim an offer with"""
+  gameAccountDisplayName: String
+
+  """The first time at which the offer can be claimed"""
+  offerStartTime: Time!
+
+  """The time at which the offer can no longer be claimed"""
+  offerEndTime: Time!
+
+  """The most recent time at which the offer was claimed by the customer"""
+  claimTime: Time
+
+  """The status of an offer"""
+  offerState: OfferState!
+
+  """
+  Boolean representing if the offer is restricted in the user's marketplace,
+  this should be true if the customer can't claim it because of the marketplace they are in
+  """
+  inRestrictedMarketplace: Boolean
+
+  """
+  Represents if the customer or customer's Household has already ordered the offer the maximum number of times
+  """
+  maxOrdersExceeded: Boolean
+}
+
+"""Information about a user's order of an offer."""
+type OfferOrderInformation {
+  """Unique identifier for the order"""
+  id: ID!
+
+  """Unique identifier for catalog offer the order was placed for"""
+  catalogOfferId: String
+
+  """Id for the account that the entitlement was created for"""
+  entitledAccountId: String
+
+  """Name of the account when the order was placed"""
+  entitledAccountName: String
+
+  """Datetime when the order was placed"""
+  orderDate: Time
+
+  """A redeemable code associated with the order"""
+  claimCode: String
+
+  """
+  Used to determine the state of the order that was just placed
+  Will return null by default if there is an unexpected error
+  """
+  orderState: OrderState
+
+  """
+  Boolean to specify that the order information constructed is for a code offer claimed on the legacy path
+  """
+  isLegacyCodeOrder: Boolean
+}
+
+"""
+Details about the orders which are being retrieved for a specific offer
+"""
+input OfferOrderRetrievalDetails {
+  """
+  Optional - offerId will retrieve all of the customer's orders that are for that offerId
+  """
+  offerId: String
+
+  """
+  Optional - orderId will retrieve that specific order. An orderId can not be passed in without an offerId
+  """
+  orderId: String
+}
+
+type OfferSelfConnection {
+  """
+  Instructions on how to redeem the items that have been claimed.
+  Supplied in Markdown.
+  """
+  claimInstructions: String
+
+  """
+  The data (link, text, or claim code) for the entitlement that was created.
+  """
+  claimData: String
+
+  """Indicates whether the user has been entitled."""
+  hasEntitlement: Boolean!
+
+  """
+  Represents the user's ability to claim an offer
+  Optional - onlyActiveOffers excludes eligibility data for offers that are inactive (future or expired).
+  """
+  eligibility(getOnlyActiveOffers: Boolean = false): OfferEligibility
+
+  """Represents data that was used to previously claim this offer"""
+  orderInformation: [OfferOrderInformation!]
+}
+
+"""Possible values for the state of an offer"""
+enum OfferState {
+  """The offer is available for claiming"""
+  LIVE
+
+  """The offer is no longer available for claiming"""
+  EXPIRED
+
+  """The offer is not yet available for claiming but will be in the future"""
+  FUTURE
+}
+
+"""Possible values for the state of an order"""
+enum OrderState {
+  """The initial state of the order and changes when the order is closed"""
+  PROCESSING
+
+  """
+  The order has been processed and closed successfully. The user has also received the entitlement.
+  """
+  SUCCEEDED
+
+  """
+  The order was completed unsuccessfully as an expected failure.
+  Ex: The customer failed ordering eligibility checks.
+  """
+  FAILED
+}
+
+"""Information related to a user's page configuration"""
+type PageConfiguration {
+  """
+  Additional information for determining what else to show to a specific user
+  """
+  menuPath: String
+
+  """
+  Page elements as a list of object blocks, null if a page does not exist
+  """
+  pageElementBlocks: [PageElementBlock!]
+
+  """Journey id for a page configuration"""
+  journeyId: String
+
+  """Where the user should be redirected, used if a page does not exist"""
+  redirectPath: String
+
+  """Used as HTML Page Title"""
+  pageHeader: String
+}
+
+"""Information about a page element"""
+type PageElementBlock {
+  """The type of page element block i.e. MoreFromPrime, PrimeShipping"""
+  type: String!
+
+  """
+  Metadata describing appearance of the page element block, i.e. backgroundColor
+  """
+  metadata: [BlockMetadata!]!
+}
+
+"""
+A pixel used for tracking and re-targeting customers based on interactions
+"""
+type Pixel {
+  """The specific interaction which will trigger the pixel"""
+  type: PixelFireEventType!
+
+  """Advertising pixel content"""
+  pixel: String!
+}
+
+"""Types of interaction events which will fire a pixel"""
+enum PixelFireEventType {
+  """Pixel is fired when the page is viewed/loaded"""
+  PAGEVIEW
+
+  """Pixel is fired when the user claim action completes successfully"""
+  CLAIM_SUCCESS
+
+  """Pixel is fired when the user makes an action to claim an offer"""
+  CLAIM_ACTION
+}
+
+"""Error code for an error that occurs while claiming an offer"""
+type PlaceOrderError {
+  """Error code for error that occurred while claiming an offer"""
+  code: PlaceOrderErrorCode!
+}
+
+"""Error types recognized."""
+enum PlaceOrderErrorCode {
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+input PlaceOrderInput {
+  """Unique identifier for an offer"""
+  offerId: ID!
+
+  """A key that represents a specific order request"""
+  idempotentKey: String!
+
+  """
+  JSON blob containing data about where an order is taking place
+  ex: '{eventId: "xyzas234nv2", page: "ODP", url: "https://twitch.amazon.com/prime/loot/destiny2?ref_=SM_D204_CRWN"}'
+  """
+  attributionChannel: String!
+
+  """
+  Optional - Date override in UTC to view the offers available for a specific
+  date for allowlist accounts. Defaults to current time.
+  """
+  dateOverride: Time
+}
+
+"""Data that was mutated after claiming an offer"""
+type PlaceOrderPayload {
+  """Updated order information for an offer that is claimed"""
+  orderInformation: [OfferOrderInformation!]
+
+  """The possible error returned from the service"""
+  error: PlaceOrderError
+}
+
+"""Error code for an error that occurs while claiming an offer"""
+type PlaceOrdersError {
+  """Error code for error that occurred while claiming an offer"""
+  code: PlaceOrdersErrorCode!
+}
+
+"""Error types recognized."""
+enum PlaceOrdersErrorCode {
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+input PlaceOrdersInput {
+  """Ids for the offer which are being entitled"""
+  offerIds: [String!]!
+
+  """
+  JSON blob containing data about where an order is taking place
+  ex: '{eventId: "xyzas234nv2", page: "ODP", url: "https://twitch.amazon.com/prime/loot/destiny2?ref_=SM_D204_CRWN"}'
+  """
+  attributionChannel: String!
+
+  """
+  Optional - Date override in UTC to view the offers available for a specific
+  date for allowlist accounts. Defaults to current time.
+  """
+  dateOverride: Time
+}
+
+"""Data that was mutated after claiming a set of offers"""
+type PlaceOrdersPayload {
+  """Updated order information on offers"""
+  orderInformation: [OfferOrderInformation]
+
+  """The possible error returned from the service"""
+  error: PlaceOrdersError
+}
+
+type PrimeBenefitStringSet {
+  """The name associated with the benefit"""
+  title: String!
+
+  """A brief sentence fragment that describes the benefit as a whole"""
+  headline: String!
+
+  """
+  A supplemental sentence fragment that adds to the headline introduces the benefit details
+  """
+  subheadline: String!
+
+  """
+  List of strings enumerating the specifics of how a customer can use the benefit
+  """
+  details: [String!]!
+}
+
+type PrimeBenefitStrings {
+  """
+  Details for the games and loot benefits and null if the benefit is not available
+  """
+  gameBenefits: PrimeBenefitStringSet
+
+  """
+  Details for the shipping benefits and null if the benefit is not available
+  """
+  shippingBenefits: PrimeBenefitStringSet
+
+  """
+  Details for the prime video benefits and null if the benefit is not available
+  """
+  videoBenefits: PrimeBenefitStringSet
+
+  """
+  Details for the Twitch benefits and null if the benefit is not available
+  """
+  twitchBenefits: PrimeBenefitStringSet
+
+  """String describing possible free trial and cost of Prime"""
+  primeOffer: String
+
+  """
+  List of strings describing a summary of all prime benefits for a country
+  """
+  benefitSummaryList: [String!]!
+}
+
+"""
+An Amazon Marketplace where Prime benefits are supported, either through traditional Prime or Prime Video.
+"""
+type PrimeMarketplace {
+  """
+  Primary identifier for a Prime Marketplace. Can vary between Beta/Prod.
+  """
+  id: ID!
+
+  """
+  Shorthand identifier for a Prime Marketplace (e.g., US, DE, ROW_NA, etc.).
+  """
+  marketplaceCode: String!
+}
+
+"""A digital entitlement that is displayed to a user."""
+type PrimeOffer {
+  """Unique identifer for the offer."""
+  id: ID!
+
+  """Unique identifier for the retail equivalent of the offer"""
+  asin: String
+
+  """Unique identifier for the catalog equivalent of the offer"""
+  catalogId: String
+
+  """Metadata for the content being offered."""
+  content: PrimeOfferContent
+
+  """Offer entitlement method."""
+  deliveryMethod: String
+
+  """
+  Information about what is being offered.
+  Supplied in Markdown.
+  """
+  description: String
+
+  """Images, videos, gifs, used to display the offer content."""
+  assets: [PrimeOfferAsset!]
+
+  """
+  Images, videos, gifs, grouped by purposed and used to display the offer content.
+  """
+  offerAssets: PrimeOfferAssets
+
+  """
+  Ranking for which the offer should be displayed ordered asc.
+  An item with 0 priority would be shown before an item with 100 priority.
+  """
+  priority: Int!
+
+  """Connection for the current user."""
+  self: OfferSelfConnection
+
+  """
+  Metadata related to the categorization of the offer (e.g. Free Games with Prime).
+  """
+  tags: [PrimeOfferTag!]
+
+  """Primary title for the offer."""
+  title: String
+
+  """Time at which the offer is available."""
+  startTime: Time
+
+  """Time at which the offer stops being available."""
+  endTime: Time
+
+  """The list of products being offered."""
+  productList: [PrimeOfferProduct!]
+
+  """
+  Journey associated with a prime offer
+  Some PrimeOffers are linked to external Journey detail pages where the customer can claim content
+  """
+  linkedJourney: Journey
+
+  """Game containing relevant data"""
+  game: Game
+
+  """Indicator to determine if the offer is a retail offer."""
+  isRetailLinkOffer: Boolean
+
+  """The id of the related base game metadata"""
+  relatedGameId: String
+
+  """The title of the related base game metadata"""
+  relatedGameTitle: String
+}
+
+"""Media used for showing what is being offered."""
+type PrimeOfferAsset {
+  """Media type."""
+  type: String!
+
+  """What is the media being used for."""
+  purpose: String
+
+  """Media url used to show the content of an offer."""
+  location: String!
+
+  """
+  Media url for the 2x version of the asset, usually used for Hi Resolution.
+  """
+  location2x: String
+}
+
+"""
+Images, videos, gifs, grouped by purposed and used to display the offer content.
+"""
+type PrimeOfferAssets {
+  """Offer ID for which the assets relate to."""
+  id: ID!
+
+  """Screenshots of the offer item or game."""
+  screenshots: [PrimeOfferAsset!]
+
+  """List of pixels to track offer actions"""
+  pixels: [Pixel!]
+}
+
+"""Metadata the digital goods being offered."""
+type PrimeOfferContent {
+  """Categorization for content's game."""
+  categories: [String!]
+
+  """
+  If the content has an external marketing page (Blizzard, Retail, etc), some offers will have no external URL.
+  """
+  externalURL: String
+
+  """The publisher of the content"""
+  publisher: String
+}
+
+"""The product that is offered."""
+type PrimeOfferProduct {
+  """The SKU of the offered product."""
+  sku: String
+
+  """The vendor of the offered product."""
+  vendor: String
+}
+
+"""Metadata strings for the purpose of the offer"""
+type PrimeOfferTag {
+  """Who is the audience or how is the tag grouped."""
+  type: String!
+
+  """The tagged value"""
+  tag: String!
+}
+
+"""
+Status of an Twitch Prime signup
+SUCCEEDED - Customer has Twitch Prime status enabled
+PENDING - Customer is waiting for Twitch Prime status to be enabled
+FAILED - Customer's Twitch Prime status has failed to be enabled
+MOBILE_VERIFICATION_REQUIRED - Customer's Twitch Prime status requires
+additional mobile verification before it can be enabled
+UNKNOWN - Customer has Twitch Prime status is unknown
+"""
+enum PrimeSignupStatus {
+  SUCCEEDED
+  PENDING
+  FAILED
+  MOBILE_VERIFICATION_REQUIRED
+  UNKNOWN
+}
+
+type Query {
+  """
+  Get the currently available Twitch Prime Offers.
+  Optional - Date override in UTC to view the offers available for a specific
+  date for allowlist accounts. Defaults to current time.
+  Optional - Group filter restricts the returned offers to the ones that contain a group tag equal to the one passed.
+  """
+  primeOffers(dateOverride: Time, group: String): [PrimeOffer]
+
+  """
+  Get a Journey by its ID
+  Optional - Date override in UTC to view the journey on a specific date for allowlist accounts. Defaults to current time.
+  Optional - String debug will display the string id and locale for string assets
+  """
+  journey(journeyId: String!, dateOverride: Time, stringDebug: Boolean = false): Journey
+
+  """Get the Twitch Prime user information for the current signed in user."""
+  currentUser: CurrentUser
+
+  """
+  Evaluate the weblab for the current user.
+  This query also triggers the weblab, so take care to only execute the query
+  when the customer will actually be interacting with the relevant experience.
+  """
+  weblabTreatment(weblabName: String!): Weblab
+
+  """
+  Evaluate the list of weblabs for the current user.
+  This query does not query the weblabs.
+  """
+  weblabTreatmentList(weblabNameList: [String!]!): [Weblab!]!
+
+  """Get the third-party account links for the given types"""
+  accountLinks(accountTypes: [String!]!): [AccountLink]
+
+  """
+  Get a short-lived auth token representing a Twitch user. The token can be used
+  to fetch basic Twitch Account info, or to link the Twitch Account to the current user.
+  """
+  twitchUserAuthToken(authCode: String!, authState: TwitchOAuthState!): String
+
+  """
+  Get basic Twitch Account information from the passed in Twitch user auth token.
+  """
+  twitchAccountFromAuthToken(authToken: String!): TwitchAccount
+
+  """
+  Get sets of translated strings associated with benefits for the detected country of the user
+  Returns null if country is not supported by Amazon (embargoed)
+  primeMarketplaceCountryCode - (Optional) used to override the user's country code.
+  """
+  primeBenefitStrings(primeMarketplaceCountryCode: String): PrimeBenefitStrings
+
+  """
+  Custom configuration for a requested page.
+  Optional - String debug will display the string id and locale for string assets
+  """
+  pageConfiguration(requestedPage: String!, dateOverride: Time, stringDebug: Boolean = false): PageConfiguration
+
+  """
+  Retrieves all of the customer's orders if no parameters are passed in
+  Optional - offerId will retrieve all of the customer's orders that are for that offerId
+  Optional - orderId will retrieve that specific order. An orderId can not be passed in without an offerId
+  Optional - orders will retrieve specific information for the order information passed in
+  """
+  orders(orderId: String, offerId: String, ordersDetails: [OfferOrderRetrievalDetails!]): [OfferOrderInformation!]
+
+  """
+  Supported configuration options made available through the developer console.
+  """
+  developerConsoleOptions: DeveloperConsoleOptions
+
+  """
+  The Amazon Marketplace for the user - either real or a best guess for non-Prime users.
+  If non-Prime, based on Country of Residence.
+  If authed and Prime, based on real Marketplace.
+  If the user has Prime in multiple Marketplaces, returns the one that matches the users Country of Residence.
+  Returns null if the User's countryOfResidence is not supported (EXCLUDED/EMBARGOED).
+  """
+  primeMarketplace: PrimeMarketplace
+
+  """Country where the current user resides."""
+  countryOfResidence: Country
+
+  """
+  Get an Item by its ID
+  Optional - Date override in UTC to view the item on a specific date for allowlist accounts. Defaults to current time.
+  Optional - String debug will display the string id and locale for string assets
+  Optional - PreviewId is used to retrieve the previewed metadata for current Item
+  """
+  item(itemId: String!, dateOverride: Time, stringDebug: Boolean = false, previewId: String): Item
+
+  """Get a paginated list of items based on input values."""
+  items(
+    """Number of items to fetch in a page."""
+    pageSize: Int = 12
+
+    """Pagination token returned by last query."""
+    token: String
+
+    """Which group of items to get."""
+    collectionType: ItemCollectionType
+
+    """
+    Override the date used for discovery, eligibility, etc. Defaults to current time.
+    """
+    dateOverride: Time
+
+    """Whether or not to display string ID + locale for string assets."""
+    enableStringDebug: Boolean = false
+  ): ItemsPage
+}
+
+"""
+Error code for error that occurred while signing up for Twitch Prime without a Twitch Account.
+"""
+type SignupForPrimeError {
+  code: SignupForPrimeErrorCode!
+}
+
+"""Error types recognized."""
+enum SignupForPrimeErrorCode {
+  """The Amazon customer is not logged in."""
+  NOT_SIGNED_IN
+
+  """The marketplace on the user was Invalid"""
+  INVALID_MARKETPLACE
+
+  """Status when customers account does not have Amazon Prime"""
+  NOT_SIGNED_UP_FOR_AMAZON_PRIME
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""
+Data that was mutated after signing up for Twitch Prime without a Twitch Account.
+"""
+type SignupForPrimePayload {
+  """The possible error returned from the service."""
+  error: SignupForPrimeError
+
+  """
+  The status of the sign up process of Twitch Prime without a Twitch Account.
+  """
+  status: SignupForPrimeStatus
+}
+
+"""Status of sign up Process of Twitch Prime without a Twitch Account."""
+enum SignupForPrimeStatus {
+  IS_ALREADY_TWITCH_PRIME
+  SIGN_UP_STARTED
+}
+
+type SocialMedia {
+  socialMediaType: SocialMediaType
+  link: String
+}
+
+enum SocialMediaType {
+  DISCORD
+  FACEBOOK
+  INSTAGRAM
+  REDDIT
+  TWITCH
+  TWITTER
+  YOUTUBE
+}
+
+type SubCreditSpend {
+  """The time when a user spent the sub credit."""
+  spendTimestamp: String
+
+  """DEPRECATED: use Streamer.name."""
+  productId: String
+}
+
+"""
+Error code for error that occurred while unsubscribing from notifications with a token
+"""
+type SubscribeToNotificationsWithTokenError {
+  """The possible error returned from the service"""
+  code: SubscribeToNotificationsWithTokenErrorCode!
+}
+
+"""Recognized error types"""
+enum SubscribeToNotificationsWithTokenErrorCode {
+  """The provided marketplace is not supported"""
+  INVALID_MARKETPLACE
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""Input object to subscribe to notifications with a token"""
+input SubscribeToNotificationsWithTokenInput {
+  """Unique token that can be parsed to get customerId for notifications"""
+  token: String!
+}
+
+"""Output object to subscribe to notifications with a token"""
+type SubscribeToNotificationsWithTokenPayload {
+  """
+  Error code for error that occurred while unsubscribing from notifications with a token
+  """
+  error: SubscribeToNotificationsWithTokenError
+}
+
+"""Details for a third-party account (not Amazon, not Twitch)."""
+type ThirdPartyAccount {
+  """The type of account. Usually a publisher name like RIOT, UBISOFT, etc."""
+  accountType: String!
+
+  """The user's account name."""
+  name: String
+}
+
+"""A custom scalar that handles iso date formats yyyy-MM-dd'T'HH:mm:ss'Z'"""
+scalar Time
+
+"""The information related to a Twitch Account."""
+type TwitchAccount {
+  """The unique Twitch identifier."""
+  tuid: String!
+
+  """A user-styled version of their login."""
+  displayName: String
+
+  """URL of the user’s profile image."""
+  profileImageUrl: String
+
+  """The current status of the Twitch account"""
+  status: TwitchAccountStatus!
+}
+
+"""
+Status of a Twitch account (deleted/banned accounts will show as INACTIVE).
+"""
+enum TwitchAccountStatus {
+  ACTIVE
+  INACTIVE
+  UNKNOWN
+}
+
+"""
+Additional validation information passed to/returned from the Twitch OAuth flow.
+"""
+input TwitchOAuthState {
+  """The user's CSRF token."""
+  csrfToken: String!
+}
+
+"""Error that occurs while removing an account link."""
+type UnlinkTwitchAccountError {
+  """Error code for error that occurred while removing the account link."""
+  code: UnlinkTwitchAccountErrorCode!
+}
+
+"""Recognized error types for removing an account link."""
+enum UnlinkTwitchAccountErrorCode {
+  """The Amazon customer who we are trying to link is not signed in"""
+  NOT_SIGNED_IN
+
+  """The given Twitch account is not linked to the logged in Amazon user."""
+  INVALID_TWITCH_ACCOUNT
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""
+Information to remove a link between an Amazon account and a Twitch account.
+"""
+input UnlinkTwitchAccountInput {
+  """The unique Twitch account identifier."""
+  tuid: String!
+}
+
+"""
+Data that was mutated after removing a link between an Amazon account and a Twitch account.
+"""
+type UnlinkTwitchAccountPayload {
+  """The updated current user with the Twitch account unlinked."""
+  currentUser: CurrentUser
+
+  """The possible error returned from the service."""
+  error: UnlinkTwitchAccountError
+}
+
+"""
+Error code for error that occurred while unsubscribing from notifications with a token
+"""
+type UnsubscribeFromNotificationsWithTokenError {
+  """The possible error returned from the service"""
+  code: UnsubscribeFromNotificationsWithTokenErrorCode!
+}
+
+"""Recognized error types"""
+enum UnsubscribeFromNotificationsWithTokenErrorCode {
+  """The provided marketplace is not supported"""
+  INVALID_MARKETPLACE
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""Input object to unsubscribe from notifications with a token"""
+input UnsubscribeFromNotificationsWithTokenInput {
+  """Unique token that can be parsed to get customerId for notifications"""
+  unsubscribeToken: String!
+}
+
+"""Output object to unsubscribe from notifications with a token"""
+type UnsubscribeFromNotificationsWithTokenPayload {
+  """
+  Error code for error that occurred while unsubscribing from notifications with a token
+  """
+  error: UnsubscribeFromNotificationsWithTokenError
+
+  """
+  notification subscriptions information on the notification setting page; returned from SNSS endpoint
+  """
+  emailNotificationOptIn: Boolean
+}
+
+"""
+Error code for error that occurred while updating notification settings
+"""
+type UpdateNotificationSettingsError {
+  """The possible error returned from the service"""
+  code: UpdateNotificationSettingsErrorCode!
+}
+
+"""Recognized error types for updating notification settings"""
+enum UpdateNotificationSettingsErrorCode {
+  """Status when user is not logged in to an Amazon account"""
+  NOT_SIGNED_IN
+
+  """The marketplace on the user was Invalid"""
+  INVALID_MARKETPLACE
+
+  """Unknown error being returned from service"""
+  UNKNOWN
+}
+
+"""Input object to update the user's notification settings"""
+input UpdateNotificationSettingsInput {
+  """Whether the user's the email notification is opted in"""
+  emailNotificationOptIn: Boolean!
+}
+
+"""Output object to update the user's notification settings"""
+type UpdateNotificationSettingsPayload {
+  """Whether the user's the email notification is opted in"""
+  emailNotificationOptIn: Boolean
+
+  """The possible error returned from the service."""
+  error: UpdateNotificationSettingsError
+}
+
+"""
+Error code for error that occurred while subscribing/unsubscribing notification for a specific topic
+"""
+type UpdateTopicSubscriptionError {
+  """The possible error returned from the service"""
+  code: UpdateTopicSubscriptionErrorCode!
+}
+
+"""
+Recognized error types while subscribing/unsubscribing notification for a specific topic
+"""
+enum UpdateTopicSubscriptionErrorCode {
+  """Status when user is not logged in to an Amazon account."""
+  NOT_SIGNED_IN
+
+  """The customer's marketplace is not supported."""
+  INVALID_MARKETPLACE
+
+  """Invalid parameters were provided to the backend."""
+  INVALID_REQUEST
+
+  """Unknown error being returned from service."""
+  UNKNOWN
+}
+
+"""
+Input object to subscribe/unsubscribe notification for a specific topic
+"""
+input UpdateTopicSubscriptionInput {
+  """Unique identifier for the topic the customer subscribed from"""
+  topicId: String!
+
+  """Title of the topic"""
+  topicTitle: String!
+
+  """Describes the type of topic for the subscription, such as a game"""
+  topicType: NotificationTopicType!
+
+  """Status of the topic subscription"""
+  isEnabled: Boolean!
+}
+
+"""
+Output object to subscribe/unsubscribe notification for a specific topic
+"""
+type UpdateTopicSubscriptionPayload {
+  """Specific subscribed topic information for notification"""
+  notificationSubscriptionTopic: NotificationSubscriptionTopic
+
+  """The possible error returned from the service."""
+  error: UpdateTopicSubscriptionError
+}
+
+"""User preferences across Amazon and Twitch Prime"""
+type UserPreferences {
+  """Has the user opted out of personalized advertisements"""
+  adOptOut: Boolean
+
+  """User's notification preferences on the notification setting page"""
+  notificationPreferences: NotificationPreferences
+}
+
+type Weblab {
+  """The name of the weblab."""
+  name: ID!
+
+  """The treatment for the weblab, if it can be retrieved."""
+  treatment: String
+}

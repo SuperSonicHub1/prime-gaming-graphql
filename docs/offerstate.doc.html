@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="./styles/graphdoc.css" />
+    <title>OfferState</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet"><link type="text/css" rel="stylesheet" href="./assets/code.css" /><script src="./assets/line-link.js"></script><link type="text/css" rel="stylesheet" href="./assets/require-by.css" />
+</head>
+<body class="slds-scrollable--y">
+    <nav class="slds-grid slds-grid--vertical slds-col--rule-right">
+        <header class="slds-p-around--medium slds-col slds-shrik slds-grow-none">
+            <button class="slds-button slds-button--icon slds-float--right js-toggle-navigation less-than-medium">
+                <i class="material-icons">close</i>
+            </button>
+                <h3 class="slds-text-heading--medium"><a href="./">GraphQL Schema</a></h3>
+            <div class="slds-p-top--small">
+                <input id="type-search" type="text" placeholder="Search a type" autofocus="" class="slds-input" />
+            </div>
+        </header>
+        <div id="navication-scroll" class="slds-scrollable--y slds-col slds-grow">
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Schema</h4>
+                <ul>
+                    <li  title="Query">
+                        <a href="query.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Query
+                        </a>
+                    </li>
+                    <li  title="Mutation">
+                        <a href="mutation.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Mutation
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Scalars</h4>
+                <ul>
+                    <li  title="Boolean">
+                        <a href="boolean.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Boolean
+                        </a>
+                    </li>
+                    <li  title="ID">
+                        <a href="id.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ID
+                        </a>
+                    </li>
+                    <li  title="Int">
+                        <a href="int.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Int
+                        </a>
+                    </li>
+                    <li  title="String">
+                        <a href="string.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            String
+                        </a>
+                    </li>
+                    <li  title="Time">
+                        <a href="time.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Time
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Enums</h4>
+                <ul>
+                    <li  title="AccountLinkStatus">
+                        <a href="accountlinkstatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            AccountLinkStatus
+                        </a>
+                    </li>
+                    <li  title="AlertType">
+                        <a href="alerttype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            AlertType
+                        </a>
+                    </li>
+                    <li  title="ClaimJourneyOfferErrorCode">
+                        <a href="claimjourneyoffererrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimJourneyOfferErrorCode
+                        </a>
+                    </li>
+                    <li  title="ClaimPrimeOfferErrorCode">
+                        <a href="claimprimeoffererrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimPrimeOfferErrorCode
+                        </a>
+                    </li>
+                    <li  title="CountryPrimeEligibility">
+                        <a href="countryprimeeligibility.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CountryPrimeEligibility
+                        </a>
+                    </li>
+                    <li  title="CreateAccountLinkErrorCode">
+                        <a href="createaccountlinkerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CreateAccountLinkErrorCode
+                        </a>
+                    </li>
+                    <li  title="ItemCollectionType">
+                        <a href="itemcollectiontype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ItemCollectionType
+                        </a>
+                    </li>
+                    <li  title="JourneyOfferStatus">
+                        <a href="journeyofferstatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOfferStatus
+                        </a>
+                    </li>
+                    <li  title="JourneyStatus">
+                        <a href="journeystatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyStatus
+                        </a>
+                    </li>
+                    <li  title="JourneyType">
+                        <a href="journeytype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyType
+                        </a>
+                    </li>
+                    <li  title="LinkTwitchAccountErrorCode">
+                        <a href="linktwitchaccounterrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            LinkTwitchAccountErrorCode
+                        </a>
+                    </li>
+                    <li  title="MarkPrimeOffersAsSeenErrorCode">
+                        <a href="markprimeoffersasseenerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MarkPrimeOffersAsSeenErrorCode
+                        </a>
+                    </li>
+                    <li  title="MediaType">
+                        <a href="mediatype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MediaType
+                        </a>
+                    </li>
+                    <li  title="NotificationTopicType">
+                        <a href="notificationtopictype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            NotificationTopicType
+                        </a>
+                    </li>
+                    <li class="slds-is-active" title="OfferState">
+                        <a href="offerstate.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OfferState
+                        </a>
+                    </li>
+                    <li  title="OrderState">
+                        <a href="orderstate.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OrderState
+                        </a>
+                    </li>
+                    <li  title="PixelFireEventType">
+                        <a href="pixelfireeventtype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PixelFireEventType
+                        </a>
+                    </li>
+                    <li  title="PlaceOrderErrorCode">
+                        <a href="placeordererrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrderErrorCode
+                        </a>
+                    </li>
+                    <li  title="PlaceOrdersErrorCode">
+                        <a href="placeorderserrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrdersErrorCode
+                        </a>
+                    </li>
+                    <li  title="PrimeSignupStatus">
+                        <a href="primesignupstatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeSignupStatus
+                        </a>
+                    </li>
+                    <li  title="SignupForPrimeErrorCode">
+                        <a href="signupforprimeerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SignupForPrimeErrorCode
+                        </a>
+                    </li>
+                    <li  title="SignupForPrimeStatus">
+                        <a href="signupforprimestatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SignupForPrimeStatus
+                        </a>
+                    </li>
+                    <li  title="SocialMediaType">
+                        <a href="socialmediatype.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SocialMediaType
+                        </a>
+                    </li>
+                    <li  title="SubscribeToNotificationsWithTokenErrorCode">
+                        <a href="subscribetonotificationswithtokenerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SubscribeToNotificationsWithTokenErrorCode
+                        </a>
+                    </li>
+                    <li  title="TwitchAccountStatus">
+                        <a href="twitchaccountstatus.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            TwitchAccountStatus
+                        </a>
+                    </li>
+                    <li  title="UnlinkTwitchAccountErrorCode">
+                        <a href="unlinktwitchaccounterrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnlinkTwitchAccountErrorCode
+                        </a>
+                    </li>
+                    <li  title="UnsubscribeFromNotificationsWithTokenErrorCode">
+                        <a href="unsubscribefromnotificationswithtokenerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnsubscribeFromNotificationsWithTokenErrorCode
+                        </a>
+                    </li>
+                    <li  title="UpdateNotificationSettingsErrorCode">
+                        <a href="updatenotificationsettingserrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateNotificationSettingsErrorCode
+                        </a>
+                    </li>
+                    <li  title="UpdateTopicSubscriptionErrorCode">
+                        <a href="updatetopicsubscriptionerrorcode.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateTopicSubscriptionErrorCode
+                        </a>
+                    </li>
+                    <li  title="__DirectiveLocation">
+                        <a href="directivelocation.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __DirectiveLocation
+                        </a>
+                    </li>
+                    <li  title="__TypeKind">
+                        <a href="typekind.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __TypeKind
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Objects</h4>
+                <ul>
+                    <li  title="AccountLink">
+                        <a href="accountlink.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            AccountLink
+                        </a>
+                    </li>
+                    <li  title="AccountLinkConfig">
+                        <a href="accountlinkconfig.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            AccountLinkConfig
+                        </a>
+                    </li>
+                    <li  title="Alert">
+                        <a href="alert.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Alert
+                        </a>
+                    </li>
+                    <li  title="AlertButton">
+                        <a href="alertbutton.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            AlertButton
+                        </a>
+                    </li>
+                    <li  title="BlockMetadata">
+                        <a href="blockmetadata.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            BlockMetadata
+                        </a>
+                    </li>
+                    <li  title="ClaimJourneyOfferError">
+                        <a href="claimjourneyoffererror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimJourneyOfferError
+                        </a>
+                    </li>
+                    <li  title="ClaimJourneyOfferPayload">
+                        <a href="claimjourneyofferpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimJourneyOfferPayload
+                        </a>
+                    </li>
+                    <li  title="ClaimJourneyOfferSelfConnection">
+                        <a href="claimjourneyofferselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimJourneyOfferSelfConnection
+                        </a>
+                    </li>
+                    <li  title="ClaimPrimeOfferError">
+                        <a href="claimprimeoffererror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimPrimeOfferError
+                        </a>
+                    </li>
+                    <li  title="ClaimPrimeOfferPayload">
+                        <a href="claimprimeofferpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimPrimeOfferPayload
+                        </a>
+                    </li>
+                    <li  title="ConflictingClaimUser">
+                        <a href="conflictingclaimuser.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ConflictingClaimUser
+                        </a>
+                    </li>
+                    <li  title="Country">
+                        <a href="country.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Country
+                        </a>
+                    </li>
+                    <li  title="CreateAccountLinkError">
+                        <a href="createaccountlinkerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CreateAccountLinkError
+                        </a>
+                    </li>
+                    <li  title="CreateAccountLinkPayload">
+                        <a href="createaccountlinkpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CreateAccountLinkPayload
+                        </a>
+                    </li>
+                    <li  title="CurrentUser">
+                        <a href="currentuser.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CurrentUser
+                        </a>
+                    </li>
+                    <li  title="DeveloperConsoleOptions">
+                        <a href="developerconsoleoptions.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            DeveloperConsoleOptions
+                        </a>
+                    </li>
+                    <li  title="DinoOperation">
+                        <a href="dinooperation.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            DinoOperation
+                        </a>
+                    </li>
+                    <li  title="DinoService">
+                        <a href="dinoservice.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            DinoService
+                        </a>
+                    </li>
+                    <li  title="FAQ">
+                        <a href="faq.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            FAQ
+                        </a>
+                    </li>
+                    <li  title="Game">
+                        <a href="game.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Game
+                        </a>
+                    </li>
+                    <li  title="GameAssets">
+                        <a href="gameassets.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            GameAssets
+                        </a>
+                    </li>
+                    <li  title="GameSelfConnection">
+                        <a href="gameselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            GameSelfConnection
+                        </a>
+                    </li>
+                    <li  title="GameV2">
+                        <a href="gamev2.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            GameV2
+                        </a>
+                    </li>
+                    <li  title="Item">
+                        <a href="item.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Item
+                        </a>
+                    </li>
+                    <li  title="ItemAssets">
+                        <a href="itemassets.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ItemAssets
+                        </a>
+                    </li>
+                    <li  title="ItemsPage">
+                        <a href="itemspage.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ItemsPage
+                        </a>
+                    </li>
+                    <li  title="Journey">
+                        <a href="journey.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Journey
+                        </a>
+                    </li>
+                    <li  title="JourneyAssets">
+                        <a href="journeyassets.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyAssets
+                        </a>
+                    </li>
+                    <li  title="JourneyOffer">
+                        <a href="journeyoffer.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOffer
+                        </a>
+                    </li>
+                    <li  title="JourneyOfferAssets">
+                        <a href="journeyofferassets.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOfferAssets
+                        </a>
+                    </li>
+                    <li  title="JourneyOfferMarketplaceRestriction">
+                        <a href="journeyoffermarketplacerestriction.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOfferMarketplaceRestriction
+                        </a>
+                    </li>
+                    <li  title="JourneyOfferOtherClaim">
+                        <a href="journeyofferotherclaim.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOfferOtherClaim
+                        </a>
+                    </li>
+                    <li  title="JourneyOfferSelfConnection">
+                        <a href="journeyofferselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneyOfferSelfConnection
+                        </a>
+                    </li>
+                    <li  title="JourneySelfConnection">
+                        <a href="journeyselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            JourneySelfConnection
+                        </a>
+                    </li>
+                    <li  title="LinkTwitchAccountError">
+                        <a href="linktwitchaccounterror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            LinkTwitchAccountError
+                        </a>
+                    </li>
+                    <li  title="LinkTwitchAccountPayload">
+                        <a href="linktwitchaccountpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            LinkTwitchAccountPayload
+                        </a>
+                    </li>
+                    <li  title="MarkPrimeOffersAsSeenError">
+                        <a href="markprimeoffersasseenerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MarkPrimeOffersAsSeenError
+                        </a>
+                    </li>
+                    <li  title="MarkPrimeOffersAsSeenPayload">
+                        <a href="markprimeoffersasseenpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MarkPrimeOffersAsSeenPayload
+                        </a>
+                    </li>
+                    <li  title="Media">
+                        <a href="media.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Media
+                        </a>
+                    </li>
+                    <li  title="MediaAsset">
+                        <a href="mediaasset.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MediaAsset
+                        </a>
+                    </li>
+                    <li  title="NotificationPreferences">
+                        <a href="notificationpreferences.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            NotificationPreferences
+                        </a>
+                    </li>
+                    <li  title="NotificationSubscriptionsPage">
+                        <a href="notificationsubscriptionspage.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            NotificationSubscriptionsPage
+                        </a>
+                    </li>
+                    <li  title="NotificationSubscriptionTopic">
+                        <a href="notificationsubscriptiontopic.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            NotificationSubscriptionTopic
+                        </a>
+                    </li>
+                    <li  title="NotificationSubscriptionTopicSelfConnection">
+                        <a href="notificationsubscriptiontopicselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            NotificationSubscriptionTopicSelfConnection
+                        </a>
+                    </li>
+                    <li  title="Offer">
+                        <a href="offer.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Offer
+                        </a>
+                    </li>
+                    <li  title="OfferEligibility">
+                        <a href="offereligibility.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OfferEligibility
+                        </a>
+                    </li>
+                    <li  title="OfferOrderInformation">
+                        <a href="offerorderinformation.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OfferOrderInformation
+                        </a>
+                    </li>
+                    <li  title="OfferSelfConnection">
+                        <a href="offerselfconnection.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OfferSelfConnection
+                        </a>
+                    </li>
+                    <li  title="PageConfiguration">
+                        <a href="pageconfiguration.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PageConfiguration
+                        </a>
+                    </li>
+                    <li  title="PageElementBlock">
+                        <a href="pageelementblock.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PageElementBlock
+                        </a>
+                    </li>
+                    <li  title="Pixel">
+                        <a href="pixel.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Pixel
+                        </a>
+                    </li>
+                    <li  title="PlaceOrderError">
+                        <a href="placeordererror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrderError
+                        </a>
+                    </li>
+                    <li  title="PlaceOrderPayload">
+                        <a href="placeorderpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrderPayload
+                        </a>
+                    </li>
+                    <li  title="PlaceOrdersError">
+                        <a href="placeorderserror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrdersError
+                        </a>
+                    </li>
+                    <li  title="PlaceOrdersPayload">
+                        <a href="placeorderspayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrdersPayload
+                        </a>
+                    </li>
+                    <li  title="PrimeBenefitStrings">
+                        <a href="primebenefitstrings.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeBenefitStrings
+                        </a>
+                    </li>
+                    <li  title="PrimeBenefitStringSet">
+                        <a href="primebenefitstringset.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeBenefitStringSet
+                        </a>
+                    </li>
+                    <li  title="PrimeMarketplace">
+                        <a href="primemarketplace.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeMarketplace
+                        </a>
+                    </li>
+                    <li  title="PrimeOffer">
+                        <a href="primeoffer.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOffer
+                        </a>
+                    </li>
+                    <li  title="PrimeOfferAsset">
+                        <a href="primeofferasset.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOfferAsset
+                        </a>
+                    </li>
+                    <li  title="PrimeOfferAssets">
+                        <a href="primeofferassets.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOfferAssets
+                        </a>
+                    </li>
+                    <li  title="PrimeOfferContent">
+                        <a href="primeoffercontent.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOfferContent
+                        </a>
+                    </li>
+                    <li  title="PrimeOfferProduct">
+                        <a href="primeofferproduct.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOfferProduct
+                        </a>
+                    </li>
+                    <li  title="PrimeOfferTag">
+                        <a href="primeoffertag.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PrimeOfferTag
+                        </a>
+                    </li>
+                    <li  title="SignupForPrimeError">
+                        <a href="signupforprimeerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SignupForPrimeError
+                        </a>
+                    </li>
+                    <li  title="SignupForPrimePayload">
+                        <a href="signupforprimepayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SignupForPrimePayload
+                        </a>
+                    </li>
+                    <li  title="SocialMedia">
+                        <a href="socialmedia.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SocialMedia
+                        </a>
+                    </li>
+                    <li  title="SubCreditSpend">
+                        <a href="subcreditspend.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SubCreditSpend
+                        </a>
+                    </li>
+                    <li  title="SubscribeToNotificationsWithTokenError">
+                        <a href="subscribetonotificationswithtokenerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SubscribeToNotificationsWithTokenError
+                        </a>
+                    </li>
+                    <li  title="SubscribeToNotificationsWithTokenPayload">
+                        <a href="subscribetonotificationswithtokenpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SubscribeToNotificationsWithTokenPayload
+                        </a>
+                    </li>
+                    <li  title="ThirdPartyAccount">
+                        <a href="thirdpartyaccount.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ThirdPartyAccount
+                        </a>
+                    </li>
+                    <li  title="TwitchAccount">
+                        <a href="twitchaccount.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            TwitchAccount
+                        </a>
+                    </li>
+                    <li  title="UnlinkTwitchAccountError">
+                        <a href="unlinktwitchaccounterror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnlinkTwitchAccountError
+                        </a>
+                    </li>
+                    <li  title="UnlinkTwitchAccountPayload">
+                        <a href="unlinktwitchaccountpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnlinkTwitchAccountPayload
+                        </a>
+                    </li>
+                    <li  title="UnsubscribeFromNotificationsWithTokenError">
+                        <a href="unsubscribefromnotificationswithtokenerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnsubscribeFromNotificationsWithTokenError
+                        </a>
+                    </li>
+                    <li  title="UnsubscribeFromNotificationsWithTokenPayload">
+                        <a href="unsubscribefromnotificationswithtokenpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnsubscribeFromNotificationsWithTokenPayload
+                        </a>
+                    </li>
+                    <li  title="UpdateNotificationSettingsError">
+                        <a href="updatenotificationsettingserror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateNotificationSettingsError
+                        </a>
+                    </li>
+                    <li  title="UpdateNotificationSettingsPayload">
+                        <a href="updatenotificationsettingspayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateNotificationSettingsPayload
+                        </a>
+                    </li>
+                    <li  title="UpdateTopicSubscriptionError">
+                        <a href="updatetopicsubscriptionerror.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateTopicSubscriptionError
+                        </a>
+                    </li>
+                    <li  title="UpdateTopicSubscriptionPayload">
+                        <a href="updatetopicsubscriptionpayload.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateTopicSubscriptionPayload
+                        </a>
+                    </li>
+                    <li  title="UserPreferences">
+                        <a href="userpreferences.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UserPreferences
+                        </a>
+                    </li>
+                    <li  title="Weblab">
+                        <a href="weblab.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            Weblab
+                        </a>
+                    </li>
+                    <li  title="__Directive">
+                        <a href="directive.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __Directive
+                        </a>
+                    </li>
+                    <li  title="__EnumValue">
+                        <a href="enumvalue.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __EnumValue
+                        </a>
+                    </li>
+                    <li  title="__Field">
+                        <a href="field.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __Field
+                        </a>
+                    </li>
+                    <li  title="__InputValue">
+                        <a href="inputvalue.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __InputValue
+                        </a>
+                    </li>
+                    <li  title="__Schema">
+                        <a href="schema.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __Schema
+                        </a>
+                    </li>
+                    <li  title="__Type">
+                        <a href="type.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            __Type
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Input Objects</h4>
+                <ul>
+                    <li  title="ClaimJourneyOfferInput">
+                        <a href="claimjourneyofferinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimJourneyOfferInput
+                        </a>
+                    </li>
+                    <li  title="ClaimPrimeOfferInput">
+                        <a href="claimprimeofferinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            ClaimPrimeOfferInput
+                        </a>
+                    </li>
+                    <li  title="CreateAccountLinkInput">
+                        <a href="createaccountlinkinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            CreateAccountLinkInput
+                        </a>
+                    </li>
+                    <li  title="LinkTwitchAccountInput">
+                        <a href="linktwitchaccountinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            LinkTwitchAccountInput
+                        </a>
+                    </li>
+                    <li  title="MarkPrimeOffersAsSeenInput">
+                        <a href="markprimeoffersasseeninput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            MarkPrimeOffersAsSeenInput
+                        </a>
+                    </li>
+                    <li  title="OfferOrderRetrievalDetails">
+                        <a href="offerorderretrievaldetails.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            OfferOrderRetrievalDetails
+                        </a>
+                    </li>
+                    <li  title="PlaceOrderInput">
+                        <a href="placeorderinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrderInput
+                        </a>
+                    </li>
+                    <li  title="PlaceOrdersInput">
+                        <a href="placeordersinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            PlaceOrdersInput
+                        </a>
+                    </li>
+                    <li  title="SubscribeToNotificationsWithTokenInput">
+                        <a href="subscribetonotificationswithtokeninput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            SubscribeToNotificationsWithTokenInput
+                        </a>
+                    </li>
+                    <li  title="TwitchOAuthState">
+                        <a href="twitchoauthstate.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            TwitchOAuthState
+                        </a>
+                    </li>
+                    <li  title="UnlinkTwitchAccountInput">
+                        <a href="unlinktwitchaccountinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnlinkTwitchAccountInput
+                        </a>
+                    </li>
+                    <li  title="UnsubscribeFromNotificationsWithTokenInput">
+                        <a href="unsubscribefromnotificationswithtokeninput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UnsubscribeFromNotificationsWithTokenInput
+                        </a>
+                    </li>
+                    <li  title="UpdateNotificationSettingsInput">
+                        <a href="updatenotificationsettingsinput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateNotificationSettingsInput
+                        </a>
+                    </li>
+                    <li  title="UpdateTopicSubscriptionInput">
+                        <a href="updatetopicsubscriptioninput.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            UpdateTopicSubscriptionInput
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical">
+                <h4 class="slds-text-title--caps slds-p-around--medium">Directives</h4>
+                <ul>
+                    <li  title="deprecated">
+                        <a href="deprecated.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            deprecated
+                        </a>
+                    </li>
+                    <li  title="include">
+                        <a href="include.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            include
+                        </a>
+                    </li>
+                    <li  title="skip">
+                        <a href="skip.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
+                            skip
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main><section class="title slds-theme--inverse">
+              <div class="container slds-grid">
+                  <div>
+                  <button class="slds-button js-toggle-navigation less-than-medium">
+                      <i class="material-icons slds-button__icon slds-button__icon--left">menu</i>
+                      <span class="slds-text-title--caps">Types</span>
+                  </button>
+                  </div>
+                  </div>
+              </div>
+              <div class="container">
+                  <p class="slds-text-title--caps slds-text-color--weak">ENUM</p>
+                  <h1 class="slds-text-heading--large">OfferState</h1>
+                  <div class="slds-text-body--regular"><p>Possible values for the state of an offer</p>
+</div>
+              </div>
+          </section>
+          <section>
+              <div class="container">
+                  <h2 id="graphql-schema-definition" class="graphdoc-section__title slds-text-heading--medium slds-m-top--small">
+                      <a href="#graphql-schema-definition">
+                          <i class="material-icons">link</i>
+                      </a>
+                      GraphQL Schema definition
+                  </h2>
+                  <code class="highlight"><table class="code"><tbody><tr class="row"><td id="L1" class="td-index">1</td><td id="LC1" class="td-code"><span class="keyword operator ts">enum</span> <span class="identifier">OfferState</span> {</td></tr><tr class="row"><td id="L2" class="td-index">2</td><td id="LC2" class="td-code"><span class="tab"></span></td></tr><tr class="row"><td id="L3" class="td-index">3</td><td id="LC3" class="td-code"><span class="tab"><span class="comment line">#   The offer is available for claiming</span></span></td></tr><tr class="row"><td id="L4" class="td-index">4</td><td id="LC4" class="td-code"><span class="tab"><span class="meta">LIVE</span></span></td></tr><tr class="row"><td id="L5" class="td-index">5</td><td id="LC5" class="td-code"><span class="tab"></span></td></tr><tr class="row"><td id="L6" class="td-index">6</td><td id="LC6" class="td-code"><span class="tab"><span class="comment line">#   The offer is no longer available for claiming</span></span></td></tr><tr class="row"><td id="L7" class="td-index">7</td><td id="LC7" class="td-code"><span class="tab"><span class="meta">EXPIRED</span></span></td></tr><tr class="row"><td id="L8" class="td-index">8</td><td id="LC8" class="td-code"><span class="tab"></span></td></tr><tr class="row"><td id="L9" class="td-index">9</td><td id="LC9" class="td-code"><span class="tab"><span class="comment line">#   The offer is not yet available for claiming but will be in the future</span></span></td></tr><tr class="row"><td id="L10" class="td-index">10</td><td id="LC10" class="td-code"><span class="tab"><span class="meta">FUTURE</span></span></td></tr><tr class="row"><td id="L11" class="td-index">11</td><td id="LC11" class="td-code">}</td></tr></tbody></table></code>
+              </div>
+          </section>
+          <section>
+              <div class="container">
+                  <h2 id="required-by" class="graphdoc-section__title slds-text-heading--medium slds-m-top--small">
+                      <a href="#required-by">
+                          <i class="material-icons">link</i>
+                      </a>
+                      Required by
+                  </h2>
+                  <ul class="require-by"><li><a href="offereligibility.doc.html" title="OfferEligibility - Contains information about a user's ability to claim an offer">OfferEligibility<em>Contains information about a user's ability to claim an offer</em></a><li></ul>
+              </div>
+          </section>
+          <footer>
+          <div class="container slds-p-around--large">
+              <p class="slds-text-align--right slds-text-title--caps">
+                  Generated with <a href="https://github.com/CodeSignal/graphqldoc#readme" target="_blank">graphqldoc 2.5.2</a>
+              </p>
+          </div>
+          </footer>
+</main>
+    <script src="./scripts/focus-active.js"></script>
+    <script src="./scripts/filter-types.js"></script>
+    <script src="./scripts/toggle-navigation.js"></script>
+</body>
